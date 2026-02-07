@@ -1,4 +1,5 @@
 import { betterAuth } from "better-auth";
+import { jwt } from "better-auth/plugins";
 import Database from "better-sqlite3";
 
 export const auth = betterAuth({
@@ -7,4 +8,5 @@ export const auth = betterAuth({
     enabled: true,
   },
   trustedOrigins: ["http://localhost:3000", "http://localhost:3001"],
+  plugins: [jwt()],
 });

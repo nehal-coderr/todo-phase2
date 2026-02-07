@@ -12,12 +12,13 @@ export class ApiError extends Error {
 
 async function getAuthToken(): Promise<string | null> {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/auth/get-session`, {
+    const response = await fetch("/api/auth/token", {
+      method: "GET",
       credentials: "include",
     });
     if (!response.ok) return null;
     const data = await response.json();
-    return data?.session?.token || null;
+    return data?.token || null;
   } catch {
     return null;
   }
@@ -44,7 +45,6 @@ export async function apiClient<T>(
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     ...options,
     headers,
-    credentials: "include",
   });
 
   if (response.status === 401) {
@@ -84,6 +84,10 @@ export const api = {
     delete: (id: string) =>
       apiClient<void>(`/api/tasks/${id}`, {
         method: "DELETE",
+      }),
+    toggle: (id: string) =>
+      apiClient<import("@/types/task").Task>(`/api/tasks/${id}/complete`, {
+        method: "PATCH",
       }),
   },
 };
