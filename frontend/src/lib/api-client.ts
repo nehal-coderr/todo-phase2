@@ -12,7 +12,7 @@ export class ApiError extends Error {
 
 async function getAuthToken(): Promise<string | null> {
   try {
-    const response = await fetch("/api/auth/token", {
+    const response = await fetch("/api/token", {
       method: "GET",
       credentials: "include",
     });
